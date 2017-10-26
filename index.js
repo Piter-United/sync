@@ -107,7 +107,13 @@ async function getValues(table, sheet) {
 
 
 function start() {
-  list.reduce((promise, data) => promise.then(() => getValues(data.table, data.sheet).then(() => console.log('end', data))), Promise.resolve())
+  list.reduce(
+    (promise, data) =>
+      promise.then(() =>
+        getValues(data.table, data.sheet)
+          .then(hasUpdate => console.log(data, 'hasUpdated:', hasUpdate))),
+    Promise.resolve(),
+  )
     .then(() => {
       console.log(new Date(), 'sync end');
       setTimeout(() => start(), 1000 * 60 * 30);
